@@ -1,0 +1,8 @@
+/bin
+/build
+/include
+/lib
+/node_modules
+/.Python
+/npm-debug.log
+/pip-selfcheck.json
