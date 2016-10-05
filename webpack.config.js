@@ -1,56 +1,52 @@
 var webpack = require('webpack'),
-	path = require('path'),
-	ExtractTextPlugin = require("extract-text-webpack-plugin"),
-	ManifestRevisionPlugin = require('manifest-revision-webpack-plugin'),
+    path = require('path'),
+    ExtractTextPlugin = require("extract-text-webpack-plugin"),
+    ManifestRevisionPlugin = require('manifest-revision-webpack-plugin'),
     CleanWebpackPlugin = require('clean-webpack-plugin');
 
-var	rootAssetPath = './assets',
-	buildOutputPath = './build/public',
+var rootAssetPath = './assets',
+    buildOutputPath = './build/public',
     publicPath = '/public/';
 
 var IS_DEV = (path.basename(require.main.filename) === 'webpack-dev-server.js');
 
-// if (path.basename(require.main.filename) === 'webpack-dev-server.js') {
-//     publicPath = 'http://localhost:2992/public/';
-// }
-
 var config = {
-	entry: {
-		'main': [
-			rootAssetPath + '/scripts/main.js',
+    entry: {
+        'main': [
+            rootAssetPath + '/scripts/main.js',
             rootAssetPath + '/styles/main.scss'
-		]
-	},
+        ]
+    },
 
-	output: {
-		path: path.resolve(__dirname, buildOutputPath),
-		publicPath: publicPath,
-		filename: '[name].js'
-	},
+    output: {
+        path: path.resolve(__dirname, buildOutputPath),
+        publicPath: publicPath,
+        filename: '[name].js'
+    },
 
-	module: {
-		loaders: [
-			{
-	            test: /\.scss$/i,
-	        	loader: 'style!css!sass'
-	        },
-			{
-				test: /\.(jpe?g|png|gif|svg)$/i,
-				loader: 'file?context=' + rootAssetPath + '&name=[path][name].[hash].[ext]'
-			},
-			{
-				test: /\.(woff2?|ttf|eot)$/i,
-				loader: 'file?context=' + rootAssetPath + '&name=[path][name].[hash].[ext]'
-			}
-	    ],
-	},
+    module: {
+        loaders: [
+            {
+                test: /\.scss$/i,
+                loader: 'style!css!sass'
+            },
+            {
+                test: /\.(jpe?g|png|gif|svg)$/i,
+                loader: 'file?context=' + rootAssetPath + '&name=[path][name].[hash].[ext]'
+            },
+            {
+                test: /\.(woff2?|ttf|eot)$/i,
+                loader: 'file?context=' + rootAssetPath + '&name=[path][name].[hash].[ext]'
+            }
+        ],
+    },
 
-	plugins: [
+    plugins: [
         new ManifestRevisionPlugin('build/manifest.json', {
             rootAssetPath: rootAssetPath,
             ignorePaths: ['/styles', '/scripts']
         })
-	]
+    ]
 };
 
 if (IS_DEV) {
